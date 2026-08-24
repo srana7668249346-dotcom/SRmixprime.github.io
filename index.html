@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>SR MIX PRIME · download generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0b0a1a;
+            background-image: radial-gradient(circle at 10% 30%, #1f0b3a 0%, #0b0a1a 70%),
+                              radial-gradient(circle at 90% 80%, #0d1f3c 0%, #0b0a1a 80%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 12px;
+        }
+
+        .glass-card {
+            max-width: 700px;
+            width: 100%;
+            background: rgba(12, 10, 30, 0.65);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            border-radius: 42px;
+            padding: 28px 22px 32px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(180, 70, 255, 0.25);
+            border: 1px solid rgba(255, 100, 255, 0.15);
+            transition: all 0.2s;
+            position: relative;
+            background-clip: padding-box;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 44px;
+            padding: 2px;
+            background: conic-gradient(from 120deg, #a855f7, #06b6d4, #ec4899, #8b5cf6, #a855f7);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-img {
+            width: 100%;
+            max-width: 240px;
+            height: auto;
+            display: block;
+            border-radius: 24px;
+            filter: drop-shadow(0 0 18px #a855f788);
+            margin-bottom: 12px;
+        }
+
+        .telegram-btn {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 10px 24px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 20px #3b82f680;
+            transition: 0.2s;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            border: 1px solid #60a5fa60;
+            backdrop-filter: blur(4px);
+            cursor: pointer;
+        }
+
+        .telegram-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px #3b82f6b0;
+        }
+
+        .how-to-use-btn {
+            background: rgba(167, 139, 250, 0.15);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            color: #c4b5fd;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 10px 22px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            backdrop-filter: blur(4px);
+            margin-top: 6px;
+        }
+
+        .how-to-use-btn:hover {
+            background: rgba(167, 139, 250, 0.25);
+            border-color: #a78bfa;
+            transform: scale(1.02);
+        }
+
+        .input-group {
+            margin-top: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            color: #d4c4ff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .input-group input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(200, 150, 255, 0.25);
+            border-radius: 40px;
+            padding: 14px 20px;
+            font-size: 0.95rem;
+            color: white;
+            outline: none;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+            width: 100%;
+        }
+
+        .input-group input:focus {
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 3px #a78bfa40, 0 0 30px #7c3aed30;
+        }
+
+        .input-group input::placeholder {
+            color: #a09bc0;
+            font-weight: 300;
+        }
+
+        .quality-section {
+            background: rgba(30, 20, 60, 0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            padding: 18px 16px 18px 16px;
+            margin: 20px 0 16px;
+            border: 1px solid #6d5b9b40;
+            box-shadow: inset 0 0 30px #3b2b6b20;
+        }
+
+        .quality-group {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 10px 0 4px;
+            position: relative;
+        }
+
+        .quality-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: #16112e60;
+            border-radius: 24px;
+            padding: 16px 14px 14px;
+            border: 1px solid #8b7ab850;
+            position: relative;
+        }
+
+        .quality-item .remove-quality {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            background: #d946ef30;
+            border: 1px solid #ec489970;
+            color: #f9a8d4;
+            border-radius: 40px;
+            padding: 4px 14px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .quality-item .remove-quality:hover {
+            background: #be185d60;
+            border-color: #f472b6;
+        }
+
+        .add-more-btn {
+            background: transparent;
+            border: 1.5px dashed #b794f4;
+            color: #c4b5fd;
+            border-radius: 60px;
+            padding: 12px 18px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+
+        .add-more-btn:hover {
+            background: #7c3aed20;
+            border-color: #a78bfa;
+        }
+
+        .action-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin: 18px 0 12px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(145deg, #7c3aed, #6d28d9);
+            border: none;
+            padding: 14px 22px;
+            border-radius: 60px;
+            font-weight: 700;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            flex: 1 1 auto;
+            justify-content: center;
+            box-shadow: 0 0 20px #7c3aed70;
+            border: 1px solid #a78bfa60;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 35px #7c3aedb0;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(145deg, #2563eb, #1d4ed8);
+            border: none;
+            padding: 14px 22px;
+            border-radius: 60px;
+            font-weight: 700;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            flex: 1 1 auto;
+            justify-content: center;
+            box-shadow: 0 0 20px #2563eb70;
+            border: 1px solid #60a5fa60;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 35px #3b82f6b0;
+        }
+
+        .generated-box {
+            background: #0b0722b0;
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 18px 16px;
+            border: 1px solid #a78bfa60;
+            margin-top: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .generated-box .link-text {
+            flex: 1;
+            color: #d8ccff;
+            word-break: break-all;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .copy-btn {
+            background: #2dd4bf20;
+            border: 1px solid #2dd4bf70;
+            color: #99f6e4;
+            border-radius: 40px;
+            padding: 8px 20px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .copy-btn:hover {
+            background: #2dd4bf40;
+        }
+
+        .download-page {
+            display: none;
+        }
+
+        .movie-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f0e6ff, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin: 12px 0 6px;
+            word-break: break-word;
+        }
+
+        .quality-download-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 20px 0 22px;
+        }
+
+        .quality-download-item {
+            background: #181330b0;
+            backdrop-filter: blur(6px);
+            border-radius: 30px;
+            padding: 16px 18px;
+            border: 1px solid #6d5b9b50;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .quality-download-item .qd-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .qd-left .qname {
+            font-weight: 700;
+            color: #e2d9ff;
+            font-size: 1.1rem;
+        }
+
+        .qd-left .qsize {
+            color: #b8aee0;
+            font-size: 0.9rem;
+        }
+
+        .qd-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-download {
+            background: #05966930;
+            border: 1px solid #34d39980;
+            color: #a7f3d0;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.15s;
+            cursor: pointer;
+        }
+
+        .btn-download:hover {
+            background: #05966960;
+        }
+
+        .upload-soon {
+            color: #94a3b8;
+            font-weight: 500;
+            background: #1e293b60;
+            padding: 6px 18px;
+            border-radius: 40px;
+            border: 1px dashed #475569;
+        }
+
+        .bottom-telegram {
+            display: flex;
+            justify-content: center;
+            margin: 28px 0 8px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 480px) {
+            .glass-card {
+                padding: 20px 14px 24px;
+                border-radius: 32px;
+            }
+            .quality-item {
+                padding: 14px 10px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- MAIN APP -->
+<div class="glass-card" id="appContainer">
+    <!-- CREATOR PAGE -->
+    <div id="creatorPage">
+        <div class="logo-wrapper">
+            <img class="logo-img" src="https://plain-apac-prod-public.komododecks.com/202608/23/noxuzfBwPJEtnWgcAWqt/image.png" alt="SR MIX PRIME">
+            
+            <!-- HOW TO USE BUTTON - opens given URL in new tab -->
+            <a href="https://www.hotstar.com/in/shows/radhakrishn/1260000646?utm_source=gwa" target="_blank" class="how-to-use-btn" rel="noopener noreferrer">
+                ❓ How To Use Website
+            </a>
+
+            <a href="https://t.me/SRMixPrimeOfficial" target="_blank" class="telegram-btn" rel="noopener noreferrer" style="margin-top:6px;">
+                ✈ Join Telegram
+            </a>
+        </div>
+
+        <div class="input-group">
+            <label>🎬 Movie Name</label>
+            <input type="text" id="movieNameInput" placeholder="e.g. RadhaKrishn" value="RadhaKrishn">
+        </div>
+
+        <div class="input-group">
+            <label>📢 Telegram Channel Link</label>
+            <input type="text" id="telegramLinkInput" value="https://t.me/SRMixPrimeOfficial">
+        </div>
+
+        <div class="quality-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="color: #c4b5fd; font-weight: 600;">📦 More Button / Add Quality Links</span>
+            </div>
+            <div id="qualityContainer">
+                <div class="quality-group" id="qualityGroup">
+                    <div class="quality-item" data-index="0">
+                        <span class="remove-quality hidden">✕ Remove</span>
+                        <input type="text" class="quality-input" placeholder="Quality e.g. SD 480p" value="SD 480p">
+                        <input type="text" class="size-input" placeholder="File Size e.g. 560 MB" value="560 MB">
+                        <input type="text" class="link-input" placeholder="Download / Watch Link" value="https://example.com/movie1">
+                    </div>
+                </div>
+            </div>
+            <button class="add-more-btn" id="addMoreQualityBtn">⊕ Add More Quality</button>
+        </div>
+
+        <div class="action-row">
+            <button class="btn-primary" id="moviesAddBtn">💿 MOVIES ADD</button>
+            <button class="btn-secondary" id="createLinkBtn">🔗 CREATE LINK BUTTON</button>
+        </div>
+
+        <div id="generatedLinkBox" class="generated-box hidden">
+            <span class="link-text" id="generatedLinkText">https://...</span>
+            <button class="copy-btn" id="copyLinkBtn">📋 Copy Link</button>
+        </div>
+    </div>
+
+    <!-- DOWNLOAD PAGE -->
+    <div id="downloadPage" class="download-page">
+        <div class="logo-wrapper">
+            <img class="logo-img" src="https://plain-apac-prod-public.komododecks.com/202608/23/noxuzfBwPJEtnWgcAWqt/image.png" alt="SR MIX PRIME">
+            <a href="https://www.hotstar.com/in/shows/radhakrishn/1260000646?utm_source=gwa" target="_blank" class="how-to-use-btn" rel="noopener noreferrer">
+                ❓ How To Use Website
+            </a>
+        </div>
+        <h2 style="color: #d4c4ff; text-align: center; font-weight: 300; letter-spacing: 1px;">⬇ Download Links</h2>
+        <div class="movie-title" id="downloadMovieTitle">RadhaKrishn</div>
+
+        <div id="downloadQualityList" class="quality-download-list"></div>
+
+        <div class="bottom-telegram">
+            <a href="https://t.me/SRMixPrimeOfficial" target="_blank" class="telegram-btn" rel="noopener noreferrer">
+                ✈ Join Telegram Channel
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // DOM refs
+        const creatorPage = document.getElementById('creatorPage');
+        const downloadPage = document.getElementById('downloadPage');
+        const movieNameInput = document.getElementById('movieNameInput');
+        const telegramLinkInput = document.getElementById('telegramLinkInput');
+        const qualityGroup = document.getElementById('qualityGroup');
+        const addMoreBtn = document.getElementById('addMoreQualityBtn');
+        const moviesAddBtn = document.getElementById('moviesAddBtn');
+        const createLinkBtn = document.getElementById('createLinkBtn');
+        const generatedLinkBox = document.getElementById('generatedLinkBox');
+        const generatedLinkText = document.getElementById('generatedLinkText');
+        const copyLinkBtn = document.getElementById('copyLinkBtn');
+        const downloadMovieTitle = document.getElementById('downloadMovieTitle');
+        const downloadQualityList = document.getElementById('downloadQualityList');
+
+        // Quality helpers
+        function getQualityItems() {
+            return document.querySelectorAll('.quality-item');
+        }
+
+        function createQualityItem(index, qualityVal = '', sizeVal = '', linkVal = '') {
+            const div = document.createElement('div');
+            div.className = 'quality-item';
+            div.dataset.index = index;
+            div.innerHTML = `
+                <span class="remove-quality">✕ Remove</span>
+                <input type="text" class="quality-input" placeholder="Quality e.g. SD 480p" value="${qualityVal}">
+                <input type="text" class="size-input" placeholder="File Size e.g. 560 MB" value="${sizeVal}">
+                <input type="text" class="link-input" placeholder="Download / Watch Link" value="${linkVal}">
+            `;
+            return div;
+        }
+
+        function updateRemoveButtons() {
+            const items = getQualityItems();
+            items.forEach((item) => {
+                const removeBtn = item.querySelector('.remove-quality');
+                if (items.length > 1) {
+                    removeBtn.classList.remove('hidden');
+                } else {
+                    removeBtn.classList.add('hidden');
+                }
+                removeBtn.onclick = function(e) {
+                    e.stopPropagation();
+                    if (getQualityItems().length > 1) {
+                        item.remove();
+                        updateRemoveButtons();
+                    }
+                };
+            });
+        }
+
+        addMoreBtn.addEventListener('click', function() {
+            const items = getQualityItems();
+            const newIndex = items.length;
+            const newItem = createQualityItem(newIndex, '', '', '');
+            qualityGroup.appendChild(newItem);
+            updateRemoveButtons();
+        });
+
+        updateRemoveButtons();
+
+        moviesAddBtn.addEventListener('click', function() {
+            qualityGroup.innerHTML = '';
+            const defaultItem = createQualityItem(0, 'SD 480p', '560 MB', 'https://example.com/movie1');
+            qualityGroup.appendChild(defaultItem);
+            updateRemoveButtons();
+            generatedLinkBox.classList.add('hidden');
+        });
+
+        function buildMovieData() {
+            const movie = movieNameInput.value.trim() || 'Untitled';
+            const telegram = telegramLinkInput.value.trim() || 'https://t.me/SRMixPrimeOfficial';
+            const qualities = [];
+            const items = getQualityItems();
+            items.forEach(item => {
+                const q = item.querySelector('.quality-input').value.trim() || 'SD';
+                const s = item.querySelector('.size-input').value.trim() || 'N/A';
+                const l = item.querySelector('.link-input').value.trim() || '';
+                qualities.push({ quality: q, size: s, link: l });
+            });
+            return { movie, telegram, qualities };
+        }
+
+        function encodeMovieData(data) {
+            try {
+                const json = JSON.stringify(data);
+                const base64 = btoa(unescape(encodeURIComponent(json)));
+                return base64;
+            } catch (e) {
+                return '';
+            }
+        }
+
+        function decodeMovieData(encoded) {
+            try {
+                const json = decodeURIComponent(escape(atob(encoded)));
+                return JSON.parse(json);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function generateLink() {
+            const data = buildMovieData();
+            if (!data.movie) {
+                alert('Please enter a movie name.');
+                return null;
+            }
+            const hasValid = data.qualities.some(q => q.link.trim() !== '');
+            if (!hasValid) {
+                alert('Add at least one download link for a quality.');
+                return null;
+            }
+            const encoded = encodeMovieData(data);
+            if (!encoded) {
+                alert('Error encoding movie data.');
+                return null;
+            }
+            const url = window.location.origin + window.location.pathname + '?movieData=' + encodeURIComponent(encoded);
+            return url;
+        }
+
+        createLinkBtn.addEventListener('click', function() {
+            const url = generateLink();
+            if (!url) return;
+            generatedLinkText.textContent = url;
+            generatedLinkBox.classList.remove('hidden');
+        });
+
+        copyLinkBtn.addEventListener('click', function() {
+            const link = generatedLinkText.textContent;
+            if (!link || link === 'https://...') return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(link).then(() => {
+                    alert('Link copied to clipboard!');
+                }).catch(() => {
+                    fallbackCopy(link);
+                });
+            } else {
+                fallbackCopy(link);
+            }
+        });
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                alert('Link copied!');
+            } catch (e) {
+                alert('Could not copy. Please select and copy manually.');
+            }
+            document.body.removeChild(ta);
+        }
+
+        function renderDownloadPage(data) {
+            downloadMovieTitle.textContent = data.movie || 'Untitled';
+            downloadQualityList.innerHTML = '';
+            data.qualities.forEach((q) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'quality-download-item';
+
+                const leftDiv = document.createElement('div');
+                leftDiv.className = 'qd-left';
+                const qname = document.createElement('span');
+                qname.className = 'qname';
+                qname.textContent = q.quality || 'Quality';
+                const qsize = document.createElement('span');
+                qsize.className = 'qsize';
+                qsize.textContent = q.size || '—';
+                leftDiv.appendChild(qname);
+                leftDiv.appendChild(qsize);
+
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'qd-actions';
+
+                const link = q.link ? q.link.trim() : '';
+                if (link) {
+                    const dlBtn = document.createElement('a');
+                    dlBtn.className = 'btn-download';
+                    dlBtn.textContent = '⇩ DOWNLOAD LINKS';
+                    dlBtn.href = link;
+                    dlBtn.target = '_blank';
+                    dlBtn.rel = 'noopener noreferrer';
+                    actionsDiv.appendChild(dlBtn);
+                } else {
+                    const soon = document.createElement('span');
+                    soon.className = 'upload-soon';
+                    soon.textContent = '⌛ Uploading Soon...';
+                    actionsDiv.appendChild(soon);
+                }
+
+                itemDiv.appendChild(leftDiv);
+                itemDiv.appendChild(actionsDiv);
+                downloadQualityList.appendChild(itemDiv);
+            });
+        }
+
+        function handleUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            const encoded = params.get('movieData');
+            if (!encoded) return false;
+
+            const data = decodeMovieData(encoded);
+            if (!data || !data.movie || !data.qualities || !Array.isArray(data.qualities)) {
+                return false;
+            }
+            creatorPage.style.display = 'none';
+            downloadPage.style.display = 'block';
+            renderDownloadPage(data);
+            if (data.telegram) {
+                telegramLinkInput.value = data.telegram;
+            }
+            return true;
+        }
+
+        if (!handleUrlParams()) {
+            creatorPage.style.display = 'block';
+            downloadPage.style.display = 'none';
+        }
+
+        window.addEventListener('popstate', function() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('movieData')) {
+                handleUrlParams();
+            } else {
+                creatorPage.style.display = 'block';
+                downloadPage.style.display = 'none';
+            }
+        });
+
+        console.log('SR MIX PRIME · ready');
+    })();
+</script>
+</body>
+</html>
